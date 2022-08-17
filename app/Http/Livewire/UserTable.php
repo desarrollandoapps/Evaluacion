@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\User;
 
 class UserTable extends DataTableComponent
 {
@@ -24,8 +25,14 @@ class UserTable extends DataTableComponent
                 ->sortable(),
             Column::make("Email", "email")
                 ->sortable(),
-            Column::make("Rol", "hasrol")
+            Column::make("Rol", "roles.id.rols.nombre")
                 ->sortable(),
         ];
+    }
+    public function builder(): Builder
+    {
+        return User::query()
+            ->join('rol_user', 'users.id', 'rol_user.user_id') // Join some tables
+            ->select('users.*', 'rol_user.rol_id as rol'); // Select some things
     }
 }
