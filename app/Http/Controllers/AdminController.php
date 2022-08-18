@@ -58,18 +58,27 @@ class AdminController extends Controller
                         ->select('users.*', 'rols.nombre as rol')
                         ->first();
 
-        return view('admin.users.edit')->with([
-            'usuario' => $user,
+        return view('users.edit')->with([
+            'usuario' => $usuario,
             'roles' => $roles
         ]);
     }
 
     public function updateUsuario(Request $request, $id)
     {
-        $user->roles()->sync($request->roles);
+        $user = User::findOrFail($id);
+
+        $user->roles()->sync($request->rol);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
         
-        $usuario = User::findOrFail($id);
-        $datos = $request()->except( ['rol', '_token', '_method'] );
-        $usuario->update($datos);
+        if ($user->save()) {
+            $request->session()->flash('mensaje',  '¡Se han modificado los datos del usuario '. $user->name . ' exitosamente!');
+        } else {
+            $request->session()->flash('mensaje', '¡Hubo un error al modificar los datos del usuario '. $user->name .'!');
+        }
+
+        return redirect()->route('verUsuarios');
     }
 }

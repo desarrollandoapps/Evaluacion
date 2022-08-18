@@ -11,11 +11,6 @@
 @endif
 
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" placeholder="a" name="id" id="id" value="{{ isset( $usuario->id ) ? $usuario->id : old('id') }}" required @if($modo == "Ver") readonly @endif>
-    <label for="nombre">ID</label>
-</div>
-
-<div class="form-floating mb-3">
     <input type="text" class="form-control" placeholder="a" name="name" id="name" value="{{ isset( $usuario->name ) ? $usuario->name : old('name') }}" required @if($modo == "Ver") readonly @endif>
     <label for="correo">Nombre</label>
 </div>
@@ -31,14 +26,12 @@
         @foreach ($roles as $item)
             <option value="{{ $item->id }}"" @if(isset($usuario->rol) && $usuario->rol == $item->nombre) selected @endif>{{ $item->nombre }}</option>
         @endforeach
-        {{-- <option selected value="Persona natural" @if(isset($usuario->rol) && $usuario->rol == "Persona natural") selected @endif>Persona natural</option>
-        <option value="Persona jurídica" @if(isset($usuario->rol) && $usuario->rol == "Persona jurídica") selected @endif>Persona jurídica</option> --}}
     </select>
     <label for="floatingSelect">Rol</label>
 </div>
 
 @if($modo != "Ver") 
-    <input type="submit" class="btn btn-primary" value="{{ $modo }} idea">
+    <input type="submit" class="btn btn-primary" value="{{ $modo }} datos">
 @else
     <a href="{{ route('verUsuarios') }}" class="btn btn-primary">Volver</a>
 @endif

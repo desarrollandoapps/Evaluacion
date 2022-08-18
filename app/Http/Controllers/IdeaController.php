@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Gate;
 use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class IdeaController extends Controller
@@ -70,6 +71,7 @@ class IdeaController extends Controller
             // abort(403);
             return redirect(route('home'));
         }
+        return view('ideas.edit', compact('idea'));
     }
 
     /**
@@ -81,7 +83,8 @@ class IdeaController extends Controller
      */
     public function update(Request $request, Idea $idea)
     {
-        //
+        $idea->update($request->all());
+        return redirect()->route('ideas.index')->with('mensaje',  '¡Se han modificado los datos exitosamente!');
     }
 
     /**
@@ -93,5 +96,17 @@ class IdeaController extends Controller
     public function destroy(Idea $idea)
     {
         //
+    }
+
+    public function asignarGestor($id)
+    {
+        $idea = Idea::findOrFail($id);
+        $gestores = User::join('rol_user', 'users.id', 'rol_user.user_id')
+                            ->join('rols', 'rol_user.rol_id', 'rols.id')
+                            ->where('rols.nombre', "Gestor")
+                            ->select('users.*')
+                            ->get();
+        // 
+        return view('ideas.gestor', compact('idea', 'gestores'));
     }
 }

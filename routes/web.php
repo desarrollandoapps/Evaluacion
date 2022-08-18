@@ -32,3 +32,6 @@ Route::get('usuarios', [AdminController::class, 'verUsuarios'])->name('verUsuari
 Route::get('usuarios/{id}', [AdminController::class, 'verUsuario'])->name('usuarios.show')->middleware(['auth']);
 Route::get('usuarios/{id}/edit', [AdminController::class, 'editUsuario'])->name('usuarios.edit')->middleware(['auth']);
 Route::put('usuarios/{id}', [AdminController::class, 'updateUsuario'])->name('usuarios.update')->middleware(['auth']);
+
+Route::get('ideas/gestor/{id}', [IdeaController::class, 'asignarGestor'])->name('ideas.asignar-gestor')->middleware(['auth']);
+Route::put('ideas/gestor/{id}', [IdeaController::class, 'guardarGestor'])->name('ideas.guardar-gestor')->middleware(['auth']);

@@ -14,6 +14,8 @@ class Idea extends Model
         'profesion',
         'tipoActor',
         'email',
-        'celular'
+        'celular',
+        'gestor', 
+        'estado',
     ];
 }

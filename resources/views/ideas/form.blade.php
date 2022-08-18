@@ -11,27 +11,27 @@
 @endif
 
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" placeholder="a" name="titulo" id="titulo" value="{{ isset( $idea->titulo ) ? $idea->titulo : old('titulo') }}" required @if($modo == "Ver") readonly @endif>
+    <input type="text" class="form-control" placeholder="a" name="titulo" id="titulo" value="{{ isset( $idea->titulo ) ? $idea->titulo : old('titulo') }}" required @if($modo == "Ver" || isset($gestor)) readonly @endif>
     <label for="nombre">Título </label>
 </div>
 
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" placeholder="a" name="codigo" id="codigo" value="{{ isset( $idea->codigo ) ? $idea->codigo : old('codigo') }}" required @if($modo == "Ver") readonly @endif>
+    <input type="text" class="form-control" placeholder="a" name="codigo" id="codigo" value="{{ isset( $idea->codigo ) ? $idea->codigo : old('codigo') }}" required @if($modo == "Ver" || isset($gestor)) readonly @endif>
     <label for="codigo">Código</label>
 </div>
 
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" placeholder="a" name="talento" id="talento" value="{{ isset( $idea->talento ) ? $idea->talento : old('talento') }}" required @if($modo == "Ver") readonly @endif>
+    <input type="text" class="form-control" placeholder="a" name="talento" id="talento" value="{{ isset( $idea->talento ) ? $idea->talento : old('talento') }}" required @if($modo == "Ver" || isset($gestor)) readonly @endif>
     <label for="correo">Talento</label>
 </div>
 
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" placeholder="a" name="profesion" id="profesion" required{{ isset( $idea->profesion ) ? $idea->profesion : old('profesion') }} @if($modo == "Ver") readonly @endif>
+    <input type="text" class="form-control" placeholder="a" name="profesion" id="profesion" value="{{ isset( $idea->profesion ) ? $idea->profesion : old('profesion') }}" required  @if($modo == "Ver" || isset($gestor)) readonly @endif>
     <label for="cv">Profesión</label>
 </div>
 
 <div class="form-floating mb-3">
-    <select class="form-select" name="tipoActor" id="tipoActor" aria-label="Floating label select example" required @if($modo == "Ver") disabled @endif>
+    <select class="form-select" name="tipoActor" id="tipoActor" aria-label="Floating label select example" required @if($modo == "Ver" || isset($gestor)) disabled @endif>
       <option selected value="Persona natural" @if(isset($idea->tipoActor) && $idea->tipoActor == "Persona natural") selected @endif>Persona natural</option>
       <option value="Persona jurídica" @if(isset($idea->tipoActor) && $idea->tipoActor == "Persona jurídica") selected @endif>Persona jurídica</option>
     </select>
@@ -39,20 +39,49 @@
 </div>
 
 <div class="form-floating mb-3">
-    <input type="email" class="form-control" placeholder="a" name="email" id="email" value="{{ isset( $idea->email ) ? $idea->email : old('email') }}" required @if($modo == "Ver") readonly @endif>
+    <input type="email" class="form-control" placeholder="a" name="email" id="email" value="{{ isset( $idea->email ) ? $idea->email : old('email') }}" required @if($modo == "Ver" || isset($gestor)) readonly @endif>
     <label for="correo">Email</label>
 </div>
 
 <div class="form-floating mb-3">
-    <input type="tel" class="form-control" placeholder="a" name="celular" id="celular" value="{{ isset( $idea->celular ) ? $idea->celular : old('celular') }}" required @if($modo == "Ver") readonly @endif>
+    <input type="tel" class="form-control" placeholder="a" name="celular" id="celular" value="{{ isset( $idea->celular ) ? $idea->celular : old('celular') }}" required @if($modo == "Ver" || isset($gestor)) readonly @endif>
     <label for="correo">Celular</label>
 </div>
+
+<div class="form-floating mb-3">
+    <input type="tel" class="form-control" placeholder="a" name="estado" id="estado" value="{{ isset( $idea->estado ) ? $idea->estado : old('estado') }}" readonly>
+    <label for="correo">Estado</label>
+</div>
+
+@if (isset($gestor) && $gestor)
+    <hr>
+    <div class="form-floating mb-3">
+        <select class="form-select" name="gestor" id="gestor" @if($modo == "Ver") disabled @endif>
+            <option value="" selected>Seleccione...</option>
+            @foreach ($gestores as $item)
+                <option value="{{ $item->id }}" @if(isset($idea->gestor) && $idea->gestor == $item->id) selected @endif>{{ $item->name }}</option>
+            @endforeach
+        </select>
+        <label for="floatingSelect">Gestor</label>
+    </div>
+    <input type="hidden" name="estado" value="Asignado">
+@endif
+
+@if ($modo == "Ver" && $idea->estado == "Asignado")
+<hr>
+<div class="form-floating mb-3">
+    <input type="tel" class="form-control" placeholder="a" name="gestor" id="gestor" value="{{ isset( $idea->gestor ) ? $idea->gestor : old('gestor') }}" readonly>
+    <label for="correo">Gestor</label>
+</div>
+@endif
 
 @if($modo != "Ver") 
     <input type="submit" class="btn btn-primary" value="{{ $modo }} idea">
 @else
     <a href="{{ route('ideas.index') }}" class="btn btn-primary">Volver</a>
 @endif
+
+
 
 @section('scripts')
     <script>

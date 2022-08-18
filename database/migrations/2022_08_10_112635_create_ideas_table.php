@@ -15,7 +15,6 @@ class CreateIdeasTable extends Migration
     {
         Schema::create('ideas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('titulo');
             $table->string('codigo');
             $table->string('talento');
@@ -23,7 +22,9 @@ class CreateIdeasTable extends Migration
             $table->string('tipoActor');
             $table->string('email');
             $table->string('celular');
-            $table->string('estado')->default('En evaluación');
+            $table->bigInteger('gestor')->nullable();
+            $table->string('estado')->default('Convocado');
+            $table->timestamps();
             $table->softDeletes();
         });
     }
