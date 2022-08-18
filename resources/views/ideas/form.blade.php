@@ -21,7 +21,7 @@
 </div>
 
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" placeholder="a" name="talento" id="talento" value="{{ isset( $idea->auttalentoor ) ? $idea->talento : old('talento') }}" required @if($modo == "Ver") readonly @endif>
+    <input type="text" class="form-control" placeholder="a" name="talento" id="talento" value="{{ isset( $idea->talento ) ? $idea->talento : old('talento') }}" required @if($modo == "Ver") readonly @endif>
     <label for="correo">Talento</label>
 </div>
 

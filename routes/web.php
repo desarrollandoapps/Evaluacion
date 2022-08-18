@@ -29,3 +29,6 @@ require __DIR__.'/auth.php';
 Route::resource('ideas', IdeaController::class)->middleware(['auth']);
 
 Route::get('usuarios', [AdminController::class, 'verUsuarios'])->name('verUsuarios')->middleware(['auth']);
+Route::get('usuarios/{id}', [AdminController::class, 'verUsuario'])->name('usuarios.show')->middleware(['auth']);
+Route::get('usuarios/{id}/edit', [AdminController::class, 'editUsuario'])->name('usuarios.edit')->middleware(['auth']);
+Route::put('usuarios/{id}', [AdminController::class, 'updateUsuario'])->name('usuarios.update')->middleware(['auth']);

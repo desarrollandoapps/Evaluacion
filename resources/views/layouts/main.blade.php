@@ -169,12 +169,14 @@
                         </li>
                         @auth
                             @cannot(['usuario'])
-                                <li class="sidebar-item">            
-                                    <a href="{{ route('verUsuarios') }}" class="@if($usuariosMenu ?? '' == true) btn d-block w-100 create-btn text-white no-block d-flex align-items-center @else sidebar-link waves-effect waves-dark @endif">
-                                        <i class="fa-solid fa-users"></i>
-                                        <span class="hide-menu m-l-5">Usuarios</span> 
-                                    </a>
-                                </li>
+                                @can(['administrador'])
+                                    <li class="sidebar-item">            
+                                        <a href="{{ route('verUsuarios') }}" class="@if($usuariosMenu ?? '' == true) btn d-block w-100 create-btn text-white no-block d-flex align-items-center @else sidebar-link waves-effect waves-dark @endif">
+                                            <i class="fa-solid fa-users"></i>
+                                            <span class="hide-menu m-l-5">Usuarios</span> 
+                                        </a>
+                                    </li>
+                                @endcan
                                 <li class="sidebar-item">            
                                     <a href="{{ route('ideas.index') }}" class="@if($ideaMenu ?? '' == true) btn d-block w-100 create-btn text-white no-block d-flex align-items-center @else sidebar-link waves-effect waves-dark @endif">
                                         <i class="fa-solid fa-lightbulb"></i>
