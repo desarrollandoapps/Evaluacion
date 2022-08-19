@@ -49,11 +49,11 @@
 </div>
 
 <div class="form-floating mb-3">
-    <input type="tel" class="form-control" placeholder="a" name="estado" id="estado" value="{{ isset( $idea->estado ) ? $idea->estado : old('estado') }}" readonly>
+    <input type="text" class="form-control" placeholder="a" name="estado" id="estado" value="{{ isset( $idea->estado ) ? $idea->estado : old('estado') }}" readonly>
     <label for="correo">Estado</label>
 </div>
 
-@if (isset($gestor) && $gestor)
+{{-- @if (isset($gestor) && $gestor) --}}
     <hr>
     <div class="form-floating mb-3">
         <select class="form-select" name="gestor" id="gestor" @if($modo == "Ver") disabled @endif>
@@ -65,15 +65,15 @@
         <label for="floatingSelect">Gestor</label>
     </div>
     <input type="hidden" name="estado" value="Asignado">
-@endif
+{{-- @endif --}}
 
-@if ($modo == "Ver" && $idea->estado == "Asignado")
+{{-- @if ($modo == "Ver" && $idea->estado == "Asignado")
 <hr>
 <div class="form-floating mb-3">
     <input type="tel" class="form-control" placeholder="a" name="gestor" id="gestor" value="{{ isset( $idea->gestor ) ? $idea->gestor : old('gestor') }}" readonly>
     <label for="correo">Gestor</label>
 </div>
-@endif
+@endif --}}
 
 @if($modo != "Ver") 
     <input type="submit" class="btn btn-primary" value="{{ $modo }} idea">

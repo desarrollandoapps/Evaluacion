@@ -21,8 +21,9 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideaMenu= true;
-        return view('menu-link.ideas', compact('ideaMenu'));
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('menu-link.ideas', compact('ideasMenu', 'usuariosMenu'));
     }
 
     /**
@@ -32,7 +33,9 @@ class IdeaController extends Controller
      */
     public function create()
     {
-        return view('ideas.insert');
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('ideas.insert', compact('ideasMenu', 'usuariosMenu'));
     }
 
     /**
@@ -43,7 +46,16 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
-        Idea::create($request->all());
+        $idea = new Idea();
+        $idea->titulo = $request->titulo;
+        $idea->codigo = $request->codigo;
+        $idea->talento = $request->talento;
+        $idea->profesion = $request->profesion;
+        $idea->tipoActor = $request->tipoActor;
+        $idea->email = $request->email;
+        $idea->celular = $request->celular;
+        $idea->estado = "Convocado";
+        $idea->save();
         return redirect('ideas')->with('mensaje', 'Se han guardado los datos exitosamente');
     }
 
@@ -55,7 +67,14 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
-        return view('ideas.show', compact('idea'));
+        $gestores = User::join('rol_user', 'users.id', 'rol_user.user_id')
+                            ->join('rols', 'rol_user.rol_id', 'rols.id')
+                            ->where('rols.nombre', "Gestor")
+                            ->select('users.*')
+                            ->get();
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('ideas.show', compact('idea', 'ideasMenu', 'usuariosMenu', 'gestores'));
     }
 
     /**
@@ -71,7 +90,14 @@ class IdeaController extends Controller
             // abort(403);
             return redirect(route('home'));
         }
-        return view('ideas.edit', compact('idea'));
+        $gestores = User::join('rol_user', 'users.id', 'rol_user.user_id')
+                            ->join('rols', 'rol_user.rol_id', 'rols.id')
+                            ->where('rols.nombre', "Gestor")
+                            ->select('users.*')
+                            ->get();
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('ideas.edit', compact('idea', 'ideasMenu', 'usuariosMenu', 'gestores'));
     }
 
     /**
@@ -107,6 +133,8 @@ class IdeaController extends Controller
                             ->select('users.*')
                             ->get();
         // 
-        return view('ideas.gestor', compact('idea', 'gestores'));
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('ideas.gestor', compact('idea', 'gestores', 'ideasMenu', 'usuariosMenu'));
     }
 }

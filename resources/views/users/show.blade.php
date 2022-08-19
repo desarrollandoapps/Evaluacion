@@ -1,6 +1,4 @@
-@extends('layouts.main', [
-    'registrarIdea' => true,
-])
+@extends('layouts.main')
 
 @section('content')
     <div class="container">

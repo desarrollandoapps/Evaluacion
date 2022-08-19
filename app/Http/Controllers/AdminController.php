@@ -17,9 +17,9 @@ class AdminController extends Controller
             // abort(403);
             return redirect(route('home'));
         }
-        $registrarIdea = false;
-        $usuarios = true;
-        return view('menu-link.usuarios', compact('registrarIdea', 'usuarios'));
+        $usuariosMenu = true;
+        $ideasMenu = false;
+        return view('menu-link.usuarios', compact('usuariosMenu', 'ideasMenu'));
     }
 
     public function verUsuario($id)
@@ -36,10 +36,12 @@ class AdminController extends Controller
                         ->where('users.id', $id)
                         ->select('users.*', 'rols.nombre as rol')
                         ->first();
-
+        
         return view('users.show')->with([
             'usuario' => $usuario,
             'roles' => $roles,
+            'usuariosMenu' => true,
+            'ideasMenu' => false,
         ]);
     }
 
@@ -60,7 +62,9 @@ class AdminController extends Controller
 
         return view('users.edit')->with([
             'usuario' => $usuario,
-            'roles' => $roles
+            'roles' => $roles,
+            'usuariosMenu' => true,
+            'ideasMenu' => false,
         ]);
     }
 

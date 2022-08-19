@@ -178,7 +178,7 @@
                                     </li>
                                 @endcan
                                 <li class="sidebar-item">            
-                                    <a href="{{ route('ideas.index') }}" class="@if($ideaMenu ?? '' == true) btn d-block w-100 create-btn text-white no-block d-flex align-items-center @else sidebar-link waves-effect waves-dark @endif">
+                                    <a href="{{ route('ideas.index') }}" class="@if($ideasMenu ?? '' == true) btn d-block w-100 create-btn text-white no-block d-flex align-items-center @else sidebar-link waves-effect waves-dark @endif">
                                         <i class="fa-solid fa-lightbulb"></i>
                                         <span class="hide-menu m-l-5">Ideas</span> 
                                     </a>
