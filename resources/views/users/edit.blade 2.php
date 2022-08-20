@@ -5,9 +5,9 @@
 @section('content')
     <div class="container">
 
-        <form action="{{ route('usuarios.update') }}" method="post" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
+        <form action="{{ route('usuarios.update', $usuario) }}" method="post" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
             @csrf
-            {{ method_field( 'PATCH' ) }}
+            @method('put')
             @include('users.form', [ 'modo' => 'Editar' ])
         </form>
     </div>
