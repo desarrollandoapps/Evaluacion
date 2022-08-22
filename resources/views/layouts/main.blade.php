@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.4/sweetalert2.css" integrity="sha512-40/Lc5CTd+76RzYwpttkBAJU68jKKQy4mnPI52KKOHwRBsGcvQct9cIqpWT/XGLSsQFAcuty1fIuNgqRoZTiGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap-5.2.0/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
 
@@ -183,16 +183,16 @@
                                         <span class="hide-menu m-l-5">Ideas</span> 
                                     </a>
                                 </li>
+                                @can(['evaluador'])
+                                <li class="sidebar-item">            
+                                    <a href="{{ route('evaluar.index') }}" class="@if($evaluarMenu ?? '' == true) btn d-block w-100 create-btn text-white no-block d-flex align-items-center @else sidebar-link waves-effect waves-dark @endif">
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                        <span class="hide-menu m-l-5">Evaluar idea</span> 
+                                    </a>
+                                </li>
+                                @endcan
                             @endcannot
-                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                    href="table-basic.html" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
-                                        class="hide-menu">Table</span></a></li>
-                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                    href="icon-material.html" aria-expanded="false"><i class="mdi mdi-face"></i><span
-                                        class="hide-menu">Icon</span></a></li>
-                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                    href="starter-kit.html" aria-expanded="false"><i class="mdi mdi-file"></i><span
-                                        class="hide-menu">Blank</span></a></li>
+                            
                             
                         @endauth
                     </ul>

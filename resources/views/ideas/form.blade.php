@@ -53,10 +53,9 @@
     <label for="correo">Estado</label>
 </div>
 
-{{-- @if (isset($gestor) && $gestor) --}}
     <hr>
     <div class="form-floating mb-3">
-        <select class="form-select" name="gestor" id="gestor" @if($modo == "Ver") disabled @endif>
+        <select class="form-select" name="gestor" id="gestor" @if($modo == "Ver" || !$asignarGestor) disabled @endif>
             <option value="" selected>Seleccione...</option>
             @foreach ($gestores as $item)
                 <option value="{{ $item->id }}" @if(isset($idea->gestor) && $idea->gestor == $item->id) selected @endif>{{ $item->name }}</option>
@@ -65,15 +64,6 @@
         <label for="floatingSelect">Gestor</label>
     </div>
     <input type="hidden" name="estado" value="Asignado">
-{{-- @endif --}}
-
-{{-- @if ($modo == "Ver" && $idea->estado == "Asignado")
-<hr>
-<div class="form-floating mb-3">
-    <input type="tel" class="form-control" placeholder="a" name="gestor" id="gestor" value="{{ isset( $idea->gestor ) ? $idea->gestor : old('gestor') }}" readonly>
-    <label for="correo">Gestor</label>
-</div>
-@endif --}}
 
 @if($modo != "Ver") 
     <input type="submit" class="btn btn-primary" value="{{ $modo }} idea">

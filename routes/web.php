@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EvaluacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,9 @@ Route::put('usuarios/{id}', [AdminController::class, 'updateUsuario'])->name('us
 
 Route::get('ideas/gestor/{id}', [IdeaController::class, 'asignarGestor'])->name('ideas.asignar-gestor')->middleware(['auth']);
 Route::put('ideas/gestor/{id}', [IdeaController::class, 'guardarGestor'])->name('ideas.guardar-gestor')->middleware(['auth']);
+Route::get('ideas/evaluadores/{id}', [IdeaController::class, 'asignarEvaluadores'])->name('ideas.asignar-evaluadores')->middleware(['auth']);
+Route::put('ideas/evaluadores/{id}', [IdeaController::class, 'guardarEvaluadores'])->name('ideas.guardar-evaluadores')->middleware(['auth']);
+
+Route::get('evaluar/', [EvaluacionController::class, 'indexEvaluar'])->name('evaluar.index')->middleware(['auth']);
+Route::get('evaluar/{id}', [EvaluacionController::class, 'irEvaluar'])->name('evaluar.irEvaluar')->middleware(['auth']);
+Route::post('evaluar', [EvaluacionController::class, 'store'])->name('evaluacion.store')->middleware(['auth']);

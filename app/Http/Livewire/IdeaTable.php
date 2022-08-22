@@ -60,17 +60,23 @@ class IdeaTable extends DataTableComponent
                         ->location(fn($row) => route('ideas.edit', $row))
                         ->attributes(function($row) {
                             return [
-                                // 'target' => '_blank',
                                 'class' => 'btn btn-warning',
                             ];
                         }),
-                    LinkColumn::make('Asociar')
+                    LinkColumn::make('Gestor')
                         ->title(fn($row) => 'Asignar Gestor')
                         ->location(fn($row) => route('ideas.asignar-gestor', $row))
                         ->attributes(function($row) {
                             return [
-                                // 'target' => '_blank',
                                 'class' => 'btn btn-success',
+                            ];
+                        }),
+                    LinkColumn::make('Evaluadores')
+                        ->title(fn($row) => 'Evaluadores')
+                        ->location(fn($row) => route('ideas.asignar-evaluadores', $row))
+                        ->attributes(function($row) {
+                            return [
+                                'class' => 'btn btn-danger',
                             ];
                         }),
                 ]),

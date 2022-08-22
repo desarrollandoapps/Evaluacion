@@ -38,7 +38,7 @@
 </div>
 
 @if($modo != "Ver") 
-    <input type="submit" class="btn btn-primary" value="{{ $modo }} idea">
+    <input type="submit" class="btn btn-primary" value="{{ $modo }} usuario">
 @else
     <a href="{{ route('verUsuarios') }}" class="btn btn-primary">Volver</a>
 @endif

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Gate;
 use App\Models\Idea;
 use App\Models\User;
+use App\Models\IdeaEvaluador;
 use Illuminate\Http\Request;
 
 class IdeaController extends Controller
@@ -126,6 +127,11 @@ class IdeaController extends Controller
 
     public function asignarGestor($id)
     {
+        if (Gate::denies('administrador')) 
+        {
+            // abort(403);
+            return redirect(route('home'));
+        }
         $idea = Idea::findOrFail($id);
         $gestores = User::join('rol_user', 'users.id', 'rol_user.user_id')
                             ->join('rols', 'rol_user.rol_id', 'rols.id')
@@ -136,5 +142,52 @@ class IdeaController extends Controller
         $usuariosMenu = false;
         $ideasMenu = true;
         return view('ideas.gestor', compact('idea', 'gestores', 'ideasMenu', 'usuariosMenu'));
+    }
+    
+    public function asignarEvaluadores($id)
+    {
+        if (Gate::denies('administrador')) 
+        {
+            // abort(403);
+            return redirect(route('home'));
+        }
+        $idea = Idea::findOrFail($id);
+        $evaluadores = User::join('rol_user', 'users.id', 'rol_user.user_id')
+                            ->join('rols', 'rol_user.rol_id', 'rols.id')
+                            ->where('rols.nombre', "Evaluador")
+                            ->select('users.*')
+                            ->get();
+        //
+        $evaluadoresIdea = IdeaEvaluador::join('users', 'idea_evaluadors.user_id', 'users.id')
+                                        ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
+                                        ->where('ideas.id', $id)
+                                        ->select('users.*')
+                                        ->get();
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('ideas.evaluadores', compact('idea', 'evaluadores', 'ideasMenu', 'usuariosMenu', 'evaluadoresIdea'));
+    }
+
+    public function guardarEvaluadores(Request $request, Idea $idea)
+    {
+        $evaluadoresAsignados = IdeaEvaluador::where('idea_evaluadors.idea_id', $request->idea_id)->get();
+        
+        foreach ($request->evaluadores as $evaluador)
+        {
+            $esta = false;
+            foreach($evaluadoresAsignados as $ea)
+            {
+                if($evaluador != $ea->id)
+                    $esta = true;
+            }
+            if(!$esta)
+            {
+                $ideaEvaluador = new IdeaEvaluador();
+                $ideaEvaluador->idea_id = $request->idea_id;
+                $ideaEvaluador->user_id = $evaluador;
+                $ideaEvaluador->save();
+            }
+        }
+        return redirect('ideas')->with('mensaje', 'Se han asigando los evaluadores exitosamente');
     }
 }

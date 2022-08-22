@@ -8,7 +8,7 @@
         <form action="{{ route('ideas.update', $idea) }}" method="post" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             @method('put')
-            @include('ideas.form', [ 'modo' => 'Editar', "gestor" => true ])
+            @include('ideas.form', [ 'modo' => 'Editar', "asignarGestor" => true ])
         </form>
     </div>
 @endsection
