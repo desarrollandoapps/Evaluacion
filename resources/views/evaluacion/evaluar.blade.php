@@ -12,7 +12,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <form action="{{ route('evaluacion.store') }}" method="post" class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
+    <form action="{{ route('evaluacion.store') }}" method="post" class="needs-validation" novalidate>
         @csrf
 
         @include('evaluacion.form', [ 'modo' => 'Crear' ])
@@ -22,24 +22,23 @@
 @section('scripts')
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
+    (() => {
     'use strict'
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
+    const forms = document.querySelectorAll('.needs-validation')
 
     // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
             event.preventDefault()
             event.stopPropagation()
-            }
+        }
 
-            form.classList.add('was-validated')
+        form.classList.add('was-validated')
         }, false)
-        })
+    })
     })()
 </script>
 @endsection

@@ -16,13 +16,13 @@ class CreateEvaluacionsTable extends Migration
         Schema::create('evaluacions', function (Blueprint $table) {
             $table->id();
             $table->date('fecha')->useCurrent();
-            $table->string('comite');
-            $table->double('viabFormulacion');
-            $table->double('viabInnovacion');
-            $table->double('viabMercado');
-            $table->double('viabPromedio');
-            $table->string('observaciones');
-            $table->string('recomendaciones');
+            $table->string('comite')->nullable()->nullable();
+            $table->double('viabFormulacion')->nullable();
+            $table->double('viabInnovacion')->nullable();
+            $table->double('viabMercado')->nullable();
+            $table->double('viabPromedio')->nullable();
+            $table->string('observaciones')->nullable();
+            $table->string('recomendaciones')->nullable();
             $table->foreignId('idea_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

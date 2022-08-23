@@ -270,10 +270,10 @@
         <!-- ============================================================== -->
     </div>
     
-    <script src="{{ asset('bootstrap-5.2.0/js/bootstrap.bundle.min.js') }}"></script>
     @livewireScripts
+    <script src="{{ asset('bootstrap-5.2.0/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="http://unpkg.com/alpinejs" defer></script>
     <script src="{{ asset('js/app-style-switcher.js') }}"></script>
     <script src="{{ asset('js/waves.js') }}"></script>
     <!--Menu sidebar -->
@@ -281,6 +281,7 @@
     <!--Custom JavaScript -->
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 
 </html>
