@@ -15,8 +15,18 @@ class CreateEvaluacionsTable extends Migration
     {
         Schema::create('evaluacions', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha')->useCurrent();
-            $table->string('comite')->nullable()->nullable();
+            $table->date('fecha')->nullable();
+            $table->string('comite')->nullable();
+            $table->integer('pCriterio1')->nullable();
+            $table->integer('pCriterio2')->nullable();
+            $table->integer('pCriterio3')->nullable();
+            $table->integer('pCriterio4')->nullable();
+            $table->integer('pCriterio5')->nullable();
+            $table->integer('pCriterio6')->nullable();
+            $table->integer('pCriterio7')->nullable();
+            $table->integer('pCriterio8')->nullable();
+            $table->integer('pCriterio9')->nullable();
+            $table->integer('pCriterio10')->nullable();
             $table->double('viabFormulacion')->nullable();
             $table->double('viabInnovacion')->nullable();
             $table->double('viabMercado')->nullable();

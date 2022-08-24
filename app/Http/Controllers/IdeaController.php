@@ -141,7 +141,8 @@ class IdeaController extends Controller
         // 
         $usuariosMenu = false;
         $ideasMenu = true;
-        return view('ideas.gestor', compact('idea', 'gestores', 'ideasMenu', 'usuariosMenu'));
+        $asignarGestor = true;
+        return view('ideas.gestor', compact('idea', 'gestores', 'ideasMenu', 'usuariosMenu', 'asignarGestor'));
     }
     
     public function asignarEvaluadores($id)
@@ -189,5 +190,26 @@ class IdeaController extends Controller
             }
         }
         return redirect('ideas')->with('mensaje', 'Se han asigando los evaluadores exitosamente');
+    }
+
+    public function estadoEvaluacion($id)
+    {
+        if (Gate::denies('administrador')) 
+        {
+            // abort(403);
+            return redirect(route('home'));
+        }
+        $idea = Idea::findOrFail($id);
+        $evaluadoresIdea = IdeaEvaluador::join('users', 'idea_evaluadors.user_id', 'users.id')
+                                        ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
+                                        ->where('ideas.id', $id)
+                                        ->select('users.*')
+                                        ->get();
+        $evaluaciones = DetalleEvaluacion::join('users', 'idea_evaluadors.user_id', 'users.id')
+                                        ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
+                                        ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
+                                        ->where('ideas.id', $id)
+                                        ->select('detalle_evaluacions.*')
+                                        ->get();
     }
 }
