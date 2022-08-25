@@ -378,6 +378,8 @@
 </div>
 
 <label for="floatingTextarea">Observaciones</label>
-<textarea class="form-control" placeholder="Observaciones..." name="observaciones" rows="5"></textarea>
+<textarea class="form-control" placeholder="Observaciones..." name="observaciones" rows="5" @if($modo == "Ver") disabled @endif>{{ isset( $evaluacion->observaciones ) ? $evaluacion->observaciones : old('observaciones') }}</textarea>
 
+@if($modo != "Ver")
 <input type="submit" class="btn btn-primary mt-4" value="Evaluar">
+@endif

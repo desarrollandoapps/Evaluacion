@@ -9069,9 +9069,9 @@ Table Cell
   display: table-cell;
   vertical-align: middle; }
 
-.table thead th,
+/* .table thead th,
 .table th {
-  font-weight: 500; }
+  font-weight: 500; } */
 
 .nowrap {
   white-space: nowrap; }

@@ -71,7 +71,19 @@ class EvaluacionController extends Controller
         $ideaEvaluador->evaluada = 1;
         $ideaEvaluador->save();
 
+        // Verificar si todos los evaluadores asignados han evaluado para cambiar el estado de la idea a evaluado
+
         return redirect()->route('evaluar.index')->with('mensaje', 'Se han guardado los datos exitosamente');
 
+    }
+
+    public function show($id)
+    {
+        $evaluacion = DetalleEvaluacion::find($id);
+        $e = Evaluacion::find($evaluacion->evaluacion_id);
+        $idea = Idea::find($e->idea_id);
+        $usuariosMenu = false;
+        $ideasMenu = true;
+        return view('evaluacion.show', compact('evaluacion', 'idea', 'ideasMenu', 'usuariosMenu'));
     }
 }

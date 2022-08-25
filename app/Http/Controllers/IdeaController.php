@@ -6,6 +6,7 @@ use Gate;
 use App\Models\Idea;
 use App\Models\User;
 use App\Models\IdeaEvaluador;
+use App\Models\DetalleEvaluacion;
 use Illuminate\Http\Request;
 
 class IdeaController extends Controller
@@ -202,14 +203,14 @@ class IdeaController extends Controller
         $idea = Idea::findOrFail($id);
         $evaluadoresIdea = IdeaEvaluador::join('users', 'idea_evaluadors.user_id', 'users.id')
                                         ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
+                                        ->join('evaluacions', 'idea_evaluadors.idea_id', 'evaluacions.idea_id')
+                                        ->join('detalle_evaluacions', 'detalle_evaluacions.evaluacion_id', 'evaluacions.id')
                                         ->where('ideas.id', $id)
-                                        ->select('users.*')
+                                        ->select('users.name', 'idea_evaluadors.evaluada', 'detalle_evaluacions.id as idDetalle')
                                         ->get();
-        $evaluaciones = DetalleEvaluacion::join('users', 'idea_evaluadors.user_id', 'users.id')
-                                        ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
-                                        ->join('ideas', 'idea_evaluadors.idea_id', 'ideas.id')
-                                        ->where('ideas.id', $id)
-                                        ->select('detalle_evaluacions.*')
-                                        ->get();
+
+        // 
+        $ideasMenu = true;
+        return view('evaluacion.estado', compact('evaluadoresIdea', 'ideasMenu'));
     }
 }
