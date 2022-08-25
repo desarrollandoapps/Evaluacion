@@ -25,15 +25,15 @@ class IdeaTable extends DataTableComponent
         return [
             Column::make("ID", "id")
                 ->sortable(),
-            Column::make("Código", "codigo")
-                ->sortable()
-                ->searchable(),
+            // Column::make("Código", "codigo")
+            //     ->sortable()
+            //     ->searchable(),
             Column::make("Titulo", "titulo")
                 ->sortable()
                 ->searchable(),
-            Column::make("Talento", "talento")
-                ->sortable()
-                ->searchable(),
+            // Column::make("Talento", "talento")
+            //     ->sortable()
+            //     ->searchable(),
             Column::make('Estado')
                 ->sortable()
                 ->format(
@@ -64,7 +64,7 @@ class IdeaTable extends DataTableComponent
                             ];
                         }),
                     LinkColumn::make('Gestor')
-                        ->title(fn($row) => 'Asignar Gestor')
+                        ->title(fn($row) => 'Gestor')
                         ->location(fn($row) => route('ideas.asignar-gestor', $row))
                         ->attributes(function($row) {
                             return [
@@ -77,6 +77,14 @@ class IdeaTable extends DataTableComponent
                         ->attributes(function($row) {
                             return [
                                 'class' => 'btn btn-danger',
+                            ];
+                        }),
+                    LinkColumn::make('Evaluadores')
+                        ->title(fn($row) => 'Evaluación')
+                        ->location(fn($row) => route('ideas.estado-evaluacion', $row))
+                        ->attributes(function($row) {
+                            return [
+                                'class' => 'btn btn-orange',
                             ];
                         }),
                 ]),

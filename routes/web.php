@@ -38,6 +38,7 @@ Route::get('ideas/gestor/{id}', [IdeaController::class, 'asignarGestor'])->name(
 Route::put('ideas/gestor/{id}', [IdeaController::class, 'guardarGestor'])->name('ideas.guardar-gestor')->middleware(['auth']);
 Route::get('ideas/evaluadores/{id}', [IdeaController::class, 'asignarEvaluadores'])->name('ideas.asignar-evaluadores')->middleware(['auth']);
 Route::put('ideas/evaluadores/{id}', [IdeaController::class, 'guardarEvaluadores'])->name('ideas.guardar-evaluadores')->middleware(['auth']);
+Route::get('ideas/evaluacion/estadso/{id}', [IdeaController::class, 'estadoEvaluacion'])->name('ideas.estado-evaluacion')->middleware(['auth']);
 
 Route::get('evaluar/', [EvaluacionController::class, 'indexEvaluar'])->name('evaluar.index')->middleware(['auth']);
 Route::get('evaluar/{id}', [EvaluacionController::class, 'irEvaluar'])->name('evaluar.irEvaluar')->middleware(['auth']);
