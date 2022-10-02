@@ -25,17 +25,26 @@
     <label for="email">Correo electrónico</label>
 </div>
 
-<div class="form-floating mb-3">
+<label class="fw-bold">Roles:</label>
+@foreach ($roles as $item)
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" value="{{ $item->id }}" id="chk" name="rol[]" @if ($usuario->roles->pluck('id')->contains($item->id)) checked @endif @if($modo == "Ver") disabled @endif>
+    <label class="form-check-label" for="flexCheckDefault">
+        {{ $item->nombre }}
+    </label>
+</div>
+@endforeach
+  
+
+{{-- <div class="form-floating mb-3">
     <select class="form-select" name="rol" id="rol" aria-label="Floating label select example" required @if($modo == "Ver") disabled @endif>
         <option value="" selected>Seleccione...</option>
         @foreach ($roles as $item)
             <option value="{{ $item->id }}"" @if(isset($usuario->rol) && $usuario->rol == $item->nombre) selected @endif>{{ $item->nombre }}</option>
         @endforeach
-        {{-- <option selected value="Persona natural" @if(isset($usuario->rol) && $usuario->rol == "Persona natural") selected @endif>Persona natural</option>
-        <option value="Persona jurídica" @if(isset($usuario->rol) && $usuario->rol == "Persona jurídica") selected @endif>Persona jurídica</option> --}}
     </select>
     <label for="floatingSelect">Rol</label>
-</div>
+</div> --}}
 
 @if($modo != "Ver") 
     <input type="submit" class="btn btn-primary" value="{{ $modo }} usuario">

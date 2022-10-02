@@ -173,24 +173,72 @@ class IdeaController extends Controller
     public function guardarEvaluadores(Request $request, Idea $idea)
     {
         $evaluadoresAsignados = IdeaEvaluador::where('idea_evaluadors.idea_id', $request->idea_id)->get();
-        
-        foreach ($request->evaluadores as $evaluador)
+
+        $yaAsignados = [];
+        foreach($evaluadoresAsignados as $ea)
         {
-            $esta = false;
-            foreach($evaluadoresAsignados as $ea)
+            $yaAsignados[] = $ea->user_id;
+        }
+
+        $aAsignar = $request->evaluadores;
+        
+        // Si el evaluador a asignar no está en la lista agregarlo   
+        foreach($aAsignar as $asignar)
+        {
+            $estaAsignado = False;
+            foreach($yaAsignados as $asignado)
             {
-                if($evaluador != $ea->id)
-                    $esta = true;
+                if($asignar == $asignado)
+                    $estaAsignado = True;
             }
-            if(!$esta)
+            if(!$estaAsignado)
             {
+                // Guardar
                 $ideaEvaluador = new IdeaEvaluador();
                 $ideaEvaluador->idea_id = $request->idea_id;
-                $ideaEvaluador->user_id = $evaluador;
+                $ideaEvaluador->user_id = $asignar;
                 $ideaEvaluador->save();
             }
         }
-        return redirect('ideas')->with('mensaje', 'Se han asigando los evaluadores exitosamente');
+        
+        $estaAsignado = False;
+        for($i = 0; $i < count($yaAsignados); $i++)
+        {
+            $yaAsignado = False;
+            $estaAsignado = False;
+            $asignado = $yaAsignados[$i];
+            echo "Asignado: $asignado <br>";
+            $haEvaluado = IdeaEvaluador::where('user_id', $asignado)
+                                        ->where('idea_id', $request->idea_id)
+                                        ->select('evaluada')
+                                        ->first()->evaluada;
+            // 
+            echo "Ha evaluado: $haEvaluado <br>";
+            if(!$haEvaluado)
+            {
+                for($j = 0;$j < count($aAsignar); $j++)
+                {
+                    $asignar = $aAsignar[$j];
+                    echo "A asignar: $asignar <br>";
+                    if($asignado == $asignar)
+                        $estaAsignado = True;
+                }
+            }
+            
+            
+            echo "Está asignado: $estaAsignado <br>";
+            if(!$estaAsignado && !$haEvaluado)
+            {
+                // Borrar
+                $borrar = IdeaEvaluador::where('user_id', $asignado)->first();
+                echo "A borrar: $borrar->id <br>";
+                $borrar->delete();
+            }
+        }
+
+        // Si dentro de la lista
+
+        return redirect('ideas')->with('mensaje', 'Se han asigando los evaluadores exitosamente. Recuerde que si un evaluador ya ha registrado una evaluación no se podrá eliminar del listado.');
     }
 
     public function estadoEvaluacion($id)

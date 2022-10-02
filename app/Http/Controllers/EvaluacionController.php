@@ -31,6 +31,13 @@ class EvaluacionController extends Controller
         return view('evaluacion.evaluar', compact('idea'));
     }
 
+    public function irEditarEvaluacion($id)
+    {
+        $idea = Idea::find($id);
+        $evaluacion = DetalleEvaluacion::find($id);
+        return view('evaluacion.editar', compact('idea', 'evaluacion'));
+    }
+
     public function store(Request $request)
     {
         $evaluacion = Evaluacion::find($request->idea);
@@ -74,6 +81,48 @@ class EvaluacionController extends Controller
         // Verificar si todos los evaluadores asignados han evaluado para cambiar el estado de la idea a evaluado
 
         return redirect()->route('evaluar.index')->with('mensaje', 'Se han guardado los datos exitosamente');
+
+    }
+
+    public function update(Request $request)
+    {
+        $evaluacion = Evaluacion::find($request->idea);
+
+        $detalle = DetalleEvaluacion::where('evaluacion_id', $request->idea)->first();
+        // dd($request);
+        $detalle->criterio1 = $request->criterio1;
+        $detalle->criterio2 = $request->criterio2;
+        $detalle->criterio3 = $request->criterio3;
+        $detalle->criterio4 = $request->criterio4;
+        $detalle->criterio5 = $request->criterio5;
+        $detalle->criterio6 = $request->criterio6;
+        $detalle->criterio7 = $request->criterio7;
+        $detalle->criterio8 = $request->criterio8;
+        $detalle->criterio9 = $request->criterio9;
+        $detalle->criterio10 = $request->criterio10;
+
+        $detalle->capAcomp1 = $request->capAcomp1;
+        $detalle->capAcomp2 = $request->capAcomp2;
+        $detalle->capAcomp3 = $request->capAcomp3;
+        $detalle->capAcomp4 = $request->capAcomp4;
+
+        $detalle->capEjec1 = $request->capEjec1;
+        $detalle->capEjec2 = $request->capEjec2;
+        
+        $detalle->observaciones = $request->observaciones;
+        $detalle->evaluacion_id = $evaluacion->id;
+        
+        $detalle->save();
+
+        $ideaEvaluador = IdeaEvaluador::where('idea_id', $request->idea)
+                                        ->where('user_id', Auth::user()->id)
+                                        ->first();
+        $ideaEvaluador->evaluada = 1;
+        $ideaEvaluador->save();
+
+        // Verificar si todos los evaluadores asignados han evaluado para cambiar el estado de la idea a evaluado
+
+        return redirect()->route('evaluar.index')->with('mensaje', 'Se han actualizado los datos exitosamente');
 
     }
 

@@ -44,3 +44,5 @@ Route::get('evaluar/', [EvaluacionController::class, 'indexEvaluar'])->name('eva
 Route::get('evaluar/{id}', [EvaluacionController::class, 'irEvaluar'])->name('evaluar.irEvaluar')->middleware(['auth']);
 Route::post('evaluar', [EvaluacionController::class, 'store'])->name('evaluacion.store')->middleware(['auth']);
 Route::get('evaluacion/{id}', [EvaluacionController::class, 'show'])->name('evaluacion.show')->middleware(['auth']);
+Route::get('evaluar/{id}/edit', [EvaluacionController::class, 'irEditarEvaluacion'])->name('evaluar.irEditarEvaluacion')->middleware(['auth']);
+Route::put('evaluar/{id}', [EvaluacionController::class, 'update'])->name('evaluacion.update')->middleware(['auth']);

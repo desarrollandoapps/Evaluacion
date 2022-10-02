@@ -6,6 +6,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 use App\Models\Idea;
+use App\Models\IdeaEvaluador;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -39,13 +40,31 @@ class EvaluarIdeaTable extends DataTableComponent
                     fn($value, $row, Column $column) => $this->verificar($value)
                 )
                 ->html(),
-            LinkColumn::make('')
-                ->title(fn($row) => 'Evaluar')
-                ->location(fn($row) => route('evaluar.irEvaluar', $row))
-                ->attributes(fn($row) => [
-                    'class' => 'btn btn-orange',
-                ]),
+            Column::make('id')
+                ->sortable()
+                ->format(
+                    fn($value, $row, Column $column) => $this->evaluacion($value)
+                )
+                ->html(),
+            // LinkColumn::make('')
+            //     ->title(fn($row) => 'Evaluar')
+            //     ->location(fn($row) => route('evaluar.irEvaluar', $row))
+            //     ->attributes(fn($row) => [
+            //         'class' => 'btn btn-orange',
+            //     ]),
         ];
+    }
+
+    public function evaluacion($valor)
+    {
+        $user = Auth::user();
+        $idea = IdeaEvaluador::where('idea_id', $valor)
+                                ->where('user_id', $user->id)
+                                ->first();
+        if($idea->evaluada)
+            return "<a href='/evaluar/$valor/edit' class='btn btn-warning'>Editar</a>";
+        else
+            return "<a href='/evaluar/$valor' class='btn btn-orange'>Evaluar</a>";
     }
 
     public function verificar($valor) 
@@ -65,7 +84,7 @@ class EvaluarIdeaTable extends DataTableComponent
         $usuario = Auth::user()->id;
         return Idea::join('idea_evaluadors', 'ideas.id', 'idea_evaluadors.idea_id')
                     ->select('ideas.*', 'idea_evaluadors.evaluada as evaluada')
-                    ->where('idea_evaluadors.user_id', $usuario)
-                    ->where('idea_evaluadors.evaluada', 0);
+                    ->where('idea_evaluadors.user_id', $usuario);
+                    // ->where('idea_evaluadors.evaluada', 0);
     }
 }

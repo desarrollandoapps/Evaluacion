@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Rol;
 use Gate;
@@ -59,12 +60,14 @@ class AdminController extends Controller
                         ->where('users.id', $id)
                         ->select('users.*', 'rols.nombre as rol')
                         ->first();
-
+        $usuario = User::findOrFail($id);
+        $rolesUsuario = DB::select('select * from rol_user where user_id = :id', ['id' => $id]);
         return view('users.edit')->with([
             'usuario' => $usuario,
             'roles' => $roles,
             'usuariosMenu' => true,
             'ideasMenu' => false,
+            'rolesUsuario' => $rolesUsuario,
         ]);
     }
 
